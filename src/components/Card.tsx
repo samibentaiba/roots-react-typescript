@@ -1,8 +1,13 @@
-// Default export
-export default function Card(props: { title: string }) {
+type CardProps = {
+  title: string;
+  content: string;
+};
+
+export default function Card(props: CardProps) {
   return (
     <div className="card">
-      <h3>{props.title}</h3>
+      <h2>{props.title}</h2>
+      <p>{props.content}</p>
     </div>
   );
 }

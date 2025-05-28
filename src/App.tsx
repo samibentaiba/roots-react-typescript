@@ -1,38 +1,44 @@
-import Card from "@/components/Card"; // default import using alias
-import { add, multiply } from "@/utils/math"; // named imports
 import "./App.css";
+import Card from "@/components/Card"; // Using alias
+import subtract, { add, multiply } from "@/utils/math";
 
-async function getMessage(): Promise<string> {
-  const result = await new Promise<string>((resolve) =>
-    setTimeout(() => resolve("Data loaded asynchronously!"), 1000)
-  );
-  return result;
-}
-
-function normalGreeting(name: string): string {
+// Normal function
+function getGreeting(name: string): string {
   return `Hello, ${name}`;
 }
 
-const arrowGreeting = (name: string): string => `Hi, ${name}!`;
+// Arrow function
+const getFarewell = (name: string): string => `Goodbye, ${name}`;
 
-function App() {
-  // NOTE: We are not using hooks per instruction, just inline execution
-  getMessage().then((message) => console.log("Async message:", message));
+// Async function
+async function fetchUser() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+  const user = await res.json();
+  console.log("User fetched:", user);
+  return user;
+}
 
-  const sum = add(10, 5);
-  const product = multiply(3, 4);
+// Top-level code execution (since we are not using hooks)
+fetchUser();
+
+export default function App() {
+  const resultAdd = add(4, 5);
+  const resultMultiply = multiply(4, 5);
+  const resultSubtract = subtract(10, 3);
+  const greeting = getGreeting("Sami");
+  const farewell = getFarewell("Sami");
 
   return (
-    <div className="App">
-      <h1>{normalGreeting("User")}</h1>
-      <h2>{arrowGreeting("Dev")}</h2>
+    <div>
+      <h1>Chapter 7 Exercises</h1>
 
-      <p>10 + 5 = {sum}</p>
-      <p>3 × 4 = {product}</p>
+      <p>{greeting}</p>
+      <p>{farewell}</p>
 
-      <Card title="This is a Card Component" />
+      <Card
+        title="Math Results"
+        content={`Add: ${resultAdd}, Multiply: ${resultMultiply}, Subtract: ${resultSubtract}`}
+      />
     </div>
   );
 }
-
-export default App;
